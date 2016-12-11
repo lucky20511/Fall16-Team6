@@ -213,28 +213,27 @@ public final class SmartFixTopComponent extends TopComponent {
     }// </editor-fold>//GEN-END:initComponents
 
     private void answerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_answerButtonActionPerformed
-        
+
         try
         {
             answerButton.setEnabled(false);
             nextButton.setEnabled(false);
-            
             // Change answer vote
             Answer selectedAnswer = answers.get(answerIterator);
             selectedAnswer.setVote(selectedAnswer.getVote()+1);
-            
             // Change results array to just selected answer
             ArrayList<Answer> answer = new ArrayList<Answer>();
             answer.add(selectedAnswer);
             resultSet.setResultSet(answer);
-            
             // Conver to json
             Gson g = new Gson();
             String jsonAnswer = g.toJson(resultSet);
-            
             // TODO send jsonAnswer back to controller
             CloseableHttpClient client = HttpClientBuilder.create().build();
             HttpPost post = new HttpPost(controllerAPI);
+            
+            System.out.println(controllerAPI);
+            
             StringEntity params = new StringEntity(jsonAnswer);
             
             post.setEntity(params);
